@@ -1,0 +1,76 @@
+{
+  "version": "1.0",
+  "date": "2026-09-30",
+  "status": "preparation_only_not_authorized_to_run",
+  "model_calls_authorized_now": false,
+  "models": {
+    "W": "gpt-6-luna",
+    "E": "gpt-6.1-sol",
+    "effort": "medium",
+    "speed": "Standard_requested_must_be_confirmed"
+  },
+  "selection": {
+    "seed": "llm-orchestration/swe-rebench-2026-07/v1/20260930",
+    "calibration_n": 10,
+    "eval_n": 50,
+    "month": "2026-07",
+    "group_bucket_rule": "first 8 bytes big-endian SHA256(seed + NUL + group + NUL + repository_group) modulo 5; bucket 0 calibration, others eval",
+    "task_rank": "SHA256(seed + NUL + task + NUL + instance_id), then instance_id",
+    "selection_input": "allowlisted metadata only; no patch, test_patch, hints or dataset content"
+  },
+  "policies": {
+    "W-only": [
+      "W initial",
+      "one W repair if visible gate fails"
+    ],
+    "E-only": [
+      "E initial",
+      "one E repair if visible gate fails"
+    ],
+    "W-to-E": [
+      "shared W initial",
+      "one fresh E takeover if visible gate fails"
+    ]
+  },
+  "visible_gate": {
+    "pass": "candidate exists, permitted scope, baseline-valid frozen public checks all exit 0 before timeout",
+    "route": "Only after infrastructure/telemetry/scope/snapshot/baseline preconditions pass and frozen public checks complete: candidate missing OR at least one public regression versus base; maximum one repair/takeover with exact visible evidence. A public-check timeout is unresolved, not a routing signal.",
+    "infrastructure": "baseline broken, harness failure, telemetry loss, unsafe scope or unreconciled interrupted process => stop, no model escalation",
+    "hidden_grader_signal_allowed": false
+  },
+  "limits_plan": {
+    "max_trajectories_per_policy_task": 2,
+    "max_W_trajectories_physical_per_task": 2,
+    "max_E_trajectories_physical_per_task": 3,
+    "max_server_calls_per_trajectory": 20,
+    "max_elapsed_seconds_per_trajectory": 1800,
+    "max_generated_tokens_per_trajectory": 20000,
+    "max_cumulative_input_tokens_per_trajectory": 100000,
+    "max_public_check_seconds": 300,
+    "max_hidden_check_seconds": 6000,
+    "automatic_transport_retries": 0,
+    "consultation_enabled": false
+  },
+  "budget_plan_only": {
+    "billing_mode_selected": null,
+    "api_W_trajectory_usd_upper": 0.0225,
+    "api_E_trajectory_usd_upper": 0.45,
+    "api_task_usd_upper": 1.395,
+    "calibration_10_tasks_usd_upper": 13.95,
+    "eval_50_tasks_usd_upper": 69.75,
+    "two_probe_usd_upper": 0.4725,
+    "total_60_tasks_and_probes_usd_upper": 84.1725,
+    "proposed_api_ceiling_usd": 110,
+    "api_spend_authorized": false,
+    "infrastructure_budget": null,
+    "subscription_quota_budget": null
+  },
+  "acceptance": {
+    "grader": "independent hidden FAIL_TO_PASS and PASS_TO_PASS on immutable candidate",
+    "feedback_to_models_or_router": false,
+    "audit_fraction": 1.0,
+    "gold_or_test_patches_agent_visible": false,
+    "oracle_routing_baseline_enabled": false
+  },
+  "stop": "all unresolved gates block execution; after calibration require explicit review before eval; this preparation ends without polling or new trials"
+}

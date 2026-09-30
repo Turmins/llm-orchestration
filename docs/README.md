@@ -9,6 +9,7 @@ Version / Версия: **2026-09-30**
 | First experiment / Первый эксперимент | [Experiment plan](en/first-experiment.md) | [План эксперимента](ru/first-experiment.md) |
 | First pilot results / Результаты первого пилота | [Observed results](en/first-pilot-results.md) | [Наблюдаемые результаты](ru/first-pilot-results.md) |
 | Telemetry diagnostic / Диагностика телеметрии | [Blocker and options](en/telemetry-diagnostic.md) | [Блокер и варианты](ru/telemetry-diagnostic.md) |
+| Economic experiment protocol / Протокол экономического эксперимента | [Preparation and gates](en/economic-experiment-protocol.md) | [Подготовка и допуски](ru/economic-experiment-protocol.md) |
 
 ## English
 

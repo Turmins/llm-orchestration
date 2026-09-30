@@ -1,0 +1,36 @@
+{
+  "version": "1.0",
+  "status": "INCOMPLETE_METADATA_UNAVAILABLE",
+  "runnable": false,
+  "dataset_url": "https://huggingface.co/datasets/nebius/SWE-rebench-leaderboard",
+  "harbor_url": "https://hub.harborframework.com/datasets/ibragim-badertdinov/swe-rebench-07-2026/latest",
+  "dataset_revision": null,
+  "harbor_revision": null,
+  "harness_revision": null,
+  "metadata_sha256": null,
+  "seed": "llm-orchestration/swe-rebench-2026-07/v1/20260930",
+  "calibration_target": 10,
+  "eval_target": 50,
+  "calibration": [],
+  "eval": [],
+  "duplicate_audit": null,
+  "split_audit": null,
+  "image_digests_verified": false,
+  "prior_exposure_exclusions": [
+    "PennyLaneAI__pennylane-7671",
+    "conan-io__conan-18444",
+    "deepset-ai__haystack-9527",
+    "feder-observatory__stellarphot-519"
+  ],
+  "metadata_access": "Official metadata API, commit page and Harbor page unavailable through browser tool on 2026-09-30; no dataset rows fetched in this preparation.",
+  "license": "Dataset card identifies CC-BY-4.0; preserve attribution and verify individual repository licenses before use. No dataset contents redistributed.",
+  "remaining_gates": [
+    "immutable revisions and eligible metadata",
+    "fixed IDs and duplicate/group separation audit",
+    "image digests and isolated grading",
+    "authorized cloud runtime",
+    "per-call model and input/output receipts with validated semantics",
+    "selected billing mode and approved resource budgets",
+    "calibration review before eval"
+  ]
+}

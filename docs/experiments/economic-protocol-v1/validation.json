@@ -1,0 +1,13 @@
+{
+  "kind": "synthetic_offline_preparation_validation",
+  "real_model_runs": 0,
+  "real_dataset_rows_read": 0,
+  "container_starts": 0,
+  "dependency_installs": 0,
+  "tests_passed": 17,
+  "jsonschema_version": "4.26.0",
+  "bilingual_parity": "PASS",
+  "actual_dataset_duplicate_audit": null,
+  "actual_dataset_split_audit": null,
+  "live_usage_contract_verified": false
+}

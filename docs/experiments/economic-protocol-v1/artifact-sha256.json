@@ -1,0 +1,9 @@
+{
+  "accounting.py": "62a83518a29e0df3ee2844b4e5763ce54ee64670b1ab16aeeae5ff37f5bbd6a6",
+  "manifest.json": "5396e201b4e85e589ff14df0ce1a47316c45ebb9a6c8c975587d0be96941b26e",
+  "protocol.json": "591e7ed19508b35051363a1b20de6107416a9b760b3ecb5ba24bf2d0b66762a1",
+  "select_metadata.py": "93ec60a58696c434aa5fe83ef9eb6fb1faf3eec298c8a0a9528effe2e18c1977",
+  "test_preparation.py": "d30275e7cefb95db68f7ac869de2f452cde56f54eb5da259eab6e6f721ab9230",
+  "usage.schema.json": "908ee41a83638b585e0d8bd3b1ed171acc8a2e9e7428357d3160b2cb14c262f7",
+  "validation.json": "23a0c75307cb21c1baec240a42ffebb60c2a6e2e01ab12e827c84ce852459c20"
+}
