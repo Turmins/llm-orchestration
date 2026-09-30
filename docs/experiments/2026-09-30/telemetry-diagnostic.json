@@ -1,0 +1,52 @@
+{
+  "date": "2026-09-30",
+  "new_model_calls": 0,
+  "new_api_calls": 0,
+  "fresh_startup_diagnostics": 2,
+  "cli_version": "0.159.0-alpha.3",
+  "writable_sqlite_created": true,
+  "remaining_failing_component": "bwrap namespace initialization",
+  "resolved_kernel_path": "/proc/self/uid_map",
+  "syscall": "openat(fd, \"uid_map\", O_RDWR|O_CLOEXEC)",
+  "result": "-1 EROFS (Read-only file system)",
+  "app_server_exit_code": 1,
+  "protocol_initialized": false,
+  "credential_contents_read_by_diagnostic": false,
+  "credentials_copied": false,
+  "hidden_sessions_inspected": false,
+  "sandbox_disabled": false,
+  "raw_traces_published": false,
+  "native_runner_usage_getter_exposed": false,
+  "proposed_api_budget_usd": 2.0,
+  "conditional_fixture_bound_usd": 1.071,
+  "api_budget_authorized": false,
+  "mandatory_per_call_gate_satisfied": false,
+  "missing_required_observations": [
+    "actual model_id",
+    "server input_tokens",
+    "server output_tokens",
+    "model/task/call attribution"
+  ],
+  "cache_read_tokens": null,
+  "cache_write_tokens": null,
+  "docker_client_server_version": "28.4.0",
+  "docker_daemon_responds": true,
+  "docker_daemon_cpus": 5,
+  "docker_daemon_memory_bytes": 18882699264,
+  "workspace_free_gib_approx": 29.82,
+  "harbor_installed": false,
+  "benchmark_images_pulled": false,
+  "benchmark_containers_run": false,
+  "harbor_july_revision": null,
+  "image_digests": null,
+  "calibration_tasks_proposed": [
+    8,
+    12
+  ],
+  "evaluation_tasks_proposed": [
+    40,
+    60
+  ],
+  "swe_api_ceiling_proposed_usd": 90,
+  "swe_api_ceiling_authorized": false
+}

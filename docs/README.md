@@ -8,6 +8,7 @@ Version / Версия: **2026-09-30**
 | Independent conclusion and change table / Независимый вывод и таблица правок | [Independent review](en/independent-review.md) | [Независимый пересмотр](ru/independent-review.md) |
 | First experiment / Первый эксперимент | [Experiment plan](en/first-experiment.md) | [План эксперимента](ru/first-experiment.md) |
 | First pilot results / Результаты первого пилота | [Observed results](en/first-pilot-results.md) | [Наблюдаемые результаты](ru/first-pilot-results.md) |
+| Telemetry diagnostic / Диагностика телеметрии | [Blocker and options](en/telemetry-diagnostic.md) | [Блокер и варианты](ru/telemetry-diagnostic.md) |
 
 ## English
 
