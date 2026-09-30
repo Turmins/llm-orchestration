@@ -1,0 +1,1 @@
+Authorized bounded subscription model experiment. Do not use any tools, subagents, files, network, or external actions. This is a fresh-context answer-only technical probe. Return exactly this JSON value, without fences or prose: {"probe":17,"check":42}. No other work.

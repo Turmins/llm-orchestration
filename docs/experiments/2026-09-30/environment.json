@@ -1,0 +1,10 @@
+{
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "os": "Linux",
+  "architecture": "x86_64",
+  "codex_cli": "0.159.0-alpha.3",
+  "model_seed": null,
+  "model_snapshot": null,
+  "network_required_for_offline_checks": false
+}

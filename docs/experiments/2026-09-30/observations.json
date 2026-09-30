@@ -1,0 +1,118 @@
+{
+  "date": "2026-09-30",
+  "evidence_origin": "Controller transcription of native tool calls/completions and UTC clock readings; not provider billing receipts.",
+  "technical_startup_attempts": [
+    {
+      "runtime": "Codex App Server default",
+      "outcome": "failed before initialize",
+      "reason": "read-only state directory"
+    },
+    {
+      "runtime": "Codex exec ephemeral, ignore-user-config, read-only sandbox, requested gpt-6-luna medium",
+      "outcome": "failed before model response",
+      "reason": "read-only filesystem during in-process app-server initialization"
+    },
+    {
+      "runtime": "Codex App Server with sqlite_home and log_dir overrides in writable workspace",
+      "outcome": "failed before initialize",
+      "reason": "remaining read-only filesystem dependency"
+    }
+  ],
+  "startup_diagnostic_replays": 2,
+  "native_runs": [
+    {
+      "run": "W-probe",
+      "requested_model": "gpt-6-luna",
+      "requested_effort": "medium",
+      "fork_turns": "none",
+      "answer": {
+        "probe": 17,
+        "check": 42
+      },
+      "observed_window_utc": [
+        "19:39:34",
+        "19:41:08"
+      ],
+      "wall_time_upper_bound_seconds": 94
+    },
+    {
+      "run": "E-probe",
+      "requested_model": "gpt-6.1-sol",
+      "requested_effort": "medium",
+      "fork_turns": "none",
+      "answer": {
+        "probe": 17,
+        "check": 42
+      },
+      "observed_window_utc": [
+        "19:39:34",
+        "19:41:08"
+      ],
+      "wall_time_upper_bound_seconds": 94
+    },
+    {
+      "run": "W-batch",
+      "requested_model": "gpt-6-luna",
+      "requested_effort": "medium",
+      "fork_turns": "none",
+      "prompt_file": "prompt.txt",
+      "answer_file": "luna-answer.json",
+      "observed_window_utc": [
+        "19:41:26",
+        "19:43:20"
+      ],
+      "wall_time_upper_bound_seconds": 114,
+      "passed": 6,
+      "total": 6
+    },
+    {
+      "run": "E-batch",
+      "requested_model": "gpt-6.1-sol",
+      "requested_effort": "medium",
+      "fork_turns": "none",
+      "prompt_file": "prompt.txt",
+      "answer_file": "sol-answer.json",
+      "observed_window_utc": [
+        "19:42:12",
+        "19:44:22"
+      ],
+      "wall_time_upper_bound_seconds": 130,
+      "passed": 6,
+      "total": 6
+    }
+  ],
+  "native_model_starts": 4,
+  "repair_starts": 0,
+  "takeover_starts": 0,
+  "all_effective_model_attestations": null,
+  "all_actual_token_usage": null,
+  "all_cache_read_write_usage": null,
+  "all_quota_consumption": null,
+  "all_actual_billing": null,
+  "speed": "not controllable; tool metadata advertises priority service tier, not verified Codex Standard",
+  "context": "fresh fork_turns=none requested; exact shared task prompt; inherited platform instructions not separately exported",
+  "timing_limits": "Upper bounds include tool dispatch, controller work and notification delays; batches overlapped; no speed ranking or per-task latency.",
+  "checker_mutation": "Wrong T1 answer rejected; positive approval field does not override gate.",
+  "billing_actions": "No paid API calls, purchases, credits or account changes initiated. Subscription consumption is unknown, not zero.",
+  "policy_results": {
+    "W-only": {
+      "accepted": 6,
+      "unresolved": 0,
+      "initial_batches": 1,
+      "repair_batches": 0
+    },
+    "E-only": {
+      "accepted": 6,
+      "unresolved": 0,
+      "initial_batches": 1,
+      "repair_batches": 0
+    },
+    "W-to-E": {
+      "accepted": 6,
+      "unresolved": 0,
+      "shared_initial_W_batches": 1,
+      "takeover_batches": 0
+    }
+  },
+  "policy_accounting": "W-only and W-to-E share the same physical W output. Count that initial work once in each logical policy, once in physical experiment totals. No task-level cost allocation available."
+}

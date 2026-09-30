@@ -1,0 +1,22 @@
+{
+  "checks": {
+    "luna-answer.json": {
+      "T1": true,
+      "T2": true,
+      "T3": true,
+      "T4": true,
+      "T5": true,
+      "T6": true
+    },
+    "sol-answer.json": {
+      "T1": true,
+      "T2": true,
+      "T3": true,
+      "T4": true,
+      "T5": true,
+      "T6": true
+    }
+  },
+  "mutation_gate": "PASS",
+  "elapsed_seconds": 0.0003009429992744117
+}

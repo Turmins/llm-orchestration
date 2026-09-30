@@ -1,0 +1,15 @@
+{
+ "version":"2026-09-30", "status":"preregistered before model pilot",
+ "authorization":"existing subscription only; no API spend, credits or purchases",
+ "runtime":"native collaboration subagents; CLI/App Server startup blocked",
+ "models":{"W":"gpt-6-luna","E":"gpt-6.1-sol"},
+ "reasoning_effort":"medium", "speed":"not selectable; tool advertises priority service tier",
+ "context":"fork_turns=none; exact task prompt; platform instructions remain; no worker reasoning to E-only",
+ "budget":{"max_model_starts":6,"max_seconds_per_start":300,"max_initial_attempts_per_model":1,"max_repair_per_policy":1},
+ "allocation":"2 technical probes; 2 identical batch baselines; at most 1 W evidence-backed repair and 1 E takeover after W failure",
+ "policies":{"W-only":"initial W; at most one repair of failed tasks with objective counterevidence","E-only":"initial E; no repair allocated in this narrowed pilot","W-to-E":"reuse exact initial W checkpoint; if checks fail, one fresh E takeover on failed tasks"},
+ "stopping":"cancel at time limit; do not exceed six starts; stop on unauthorized tools/files or billing uncertainty requiring new payments",
+ "acceptance":"exact predetermined JSON outputs checked by local deterministic verifier; reject missing, extra or malformed fields; audit every result",
+ "measurements":"requested model/effort, tool acknowledgment, observed wall-time interval, exact prompt and answer, checker results, all failures; actual quota, tokens, billed cost unknown unless exposed",
+ "limits":"synthetic answer-only microtasks; no filesystem isolation claim, no start/resume/fork/interruption certification, no economic conclusion; paired W checkpoint reused and charged logically in each policy"
+}

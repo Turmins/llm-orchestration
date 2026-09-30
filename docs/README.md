@@ -7,10 +7,11 @@ Version / Версия: **2026-09-30**
 | Complete architecture review / Полный архитектурный анализ | [Full review](en/hierarchical-llm-architecture-review-updated.md) | [Полный анализ](ru/hierarchical-llm-architecture-review-updated.md) |
 | Independent conclusion and change table / Независимый вывод и таблица правок | [Independent review](en/independent-review.md) | [Независимый пересмотр](ru/independent-review.md) |
 | First experiment / Первый эксперимент | [Experiment plan](en/first-experiment.md) | [План эксперимента](ru/first-experiment.md) |
+| First pilot results / Результаты первого пилота | [Observed results](en/first-pilot-results.md) | [Наблюдаемые результаты](ru/first-pilot-results.md) |
 
 ## English
 
-These are complete parallel editions of the architecture reassessment dated 2026-09-30. The full report preserves the economic and reliability definitions, formulas, acceptance obligations, risk register, sources, and unresolved questions. The shorter documents accompany it; they do not replace the complete report. This is a documentation release: no orchestrator implementation or model experiments were requested or performed.
+These are complete parallel editions of the architecture reassessment dated 2026-09-30. The full report preserves the economic and reliability definitions, formulas, acceptance obligations, risk register, sources, and unresolved questions. The shorter documents accompany it; they do not replace the complete report. The architecture review was a documentation-only release. A subsequently authorized, bounded model pilot is recorded separately in the pilot-results documents and shared experiment materials; no orchestrator was implemented.
 
 ### Bilingual reporting requirement
 
@@ -18,7 +19,7 @@ Save all subsequent project reporting documents in **both English and Russian** 
 
 ## Русский
 
-Это полные параллельные редакции архитектурного пересмотра от 2026-09-30. Полный отчёт сохраняет определения экономики и надёжности, формулы, обязательства приёмки, реестр рисков, источники и нерешённые вопросы. Краткие документы дополняют его, а не заменяют. Это публикация документации: реализация оркестратора и модельные эксперименты не запрашивались и не выполнялись.
+Это полные параллельные редакции архитектурного пересмотра от 2026-09-30. Полный отчёт сохраняет определения экономики и надёжности, формулы, обязательства приёмки, реестр рисков, источники и нерешённые вопросы. Краткие документы дополняют его, а не заменяют. Архитектурный пересмотр был публикацией документации. Впоследствии разрешённый ограниченный модельный пилот описан отдельно в отчётах о результатах пилота и общих материалах эксперимента; оркестратор не реализовывался.
 
 ### Требование двуязычной отчётности
 
