@@ -1,4 +1,46 @@
-# Economic Experiment Protocol v1 — Preparation Only
+# Economic Experiment: Four-Task PoC and Optional Future Protocol
+
+## Current stage — subscription-only four-task PoC
+
+Updated 2026-10-01. **Only the existing subscription is permitted. Paid API is neither the current path nor a fallback.** The current objective is per-task, per-model input/output and available cache token measurements, including every attempt and transfer. Token use is not automatically included-allowance consumption. The 10+50 design below is an optional later stage; its historical $110 estimate is not a current recommendation or authorization.
+
+Current runnable materials: [plan](../experiments/toy-poc-v1/plan.json), [four frozen original tasks](../experiments/toy-poc-v1/tasks.json), [offline harness](../experiments/toy-poc-v1/harness.py), [MIT license](../experiments/toy-poc-v1/LICENSE), [synthetic-only report](../experiments/toy-poc-v1/synthetic_report.json). These are original toy tasks, **not SWE-rebench or another benchmark**. No dataset metadata retrieval is needed for this PoC. The task set and order are fixed before any model result; no replacement to manufacture W failures is allowed.
+
+| ID | Small objective task | Visible routing signal | Separate final acceptance |
+|---|---|---|---|
+| P01 | Strict-overlap interval union | JSON shape, order, positive lengths, non-overlap | Exact union and endpoint semantics |
+| P02 | Idempotent transfer ledger | JSON shape, integer balances, conserved total | Exact balances after all events |
+| P03 | Directed shortest path | Valid simple path and correctly summed cost | Minimum cost and lexical tie-break |
+| P04 | Small 0/1 packing | Valid unique IDs, sums and capacity | Optimal value, weight and lexical tie-break |
+
+All requirements, including optimality, are given to both models. Hidden means the reference calculation/result is withheld, not that requirements are secret. Four independently worked reference answers were checked against the algorithmic grader. The independent acceptance is controller code, never model prose. The grader and references are present in the public harness for reproducibility, so agents must receive only exported packets in a separate environment with no repository/grader access or network tools. Packet filtering passes offline tests; live filesystem/tool isolation remains a gate, not an established fact. Do not deploy this harness in an agent-readable checkout and call the grading hidden.
+
+**Policies:** W requests `gpt-6-luna`; E requests `gpt-6.1-sol`; both request `medium` and Standard, subject to actual runtime confirmation. On each task, W→E gets one W call and at most one fresh E takeover. E-only gets one independent E call with the original task only. No repair loops, consultation or retries. Alternate which baseline is dispatched first by task index, execute serially, and record monotonic dispatch/completion timestamps when available. Both policies use the same task requirements and final grader.
+
+**Routing:** check authoritative usage/model attribution and runtime health first. A missing receipt, model mismatch, infrastructure failure, unaccounted cancellation or limit violation stops the experiment; it does not trigger E. Otherwise JSON parse/schema or frozen visible-invariant failure triggers one takeover. A visible pass freezes the candidate even if final acceptance later fails. Send E only the original packet, W candidate and visible failure evidence; its full repeated context is part of E input usage. Freeze all comparative candidates and their byte hashes before controller-only final grading. No hidden grader output may feed routing. If W has no visible failures, zero natural handoffs is a valid result; report it without selecting replacement tasks.
+
+**Separate technical handoff:** a forced W→E transfer on P03 may test packet/lifecycle mechanics even if W passes. Give it its own experiment identity and ledger, label it forced, and exclude it from economic/token-efficiency conclusions. At most two calls are reserved for this technical case. No real forced handoff has been run. Synthetic failure injection tests procedure only and is never evidence of a model error or savings.
+
+**Small planned limits:** four tasks; at most 12 comparative calls (4 W, 4 E-only, up to 4 takeovers), plus at most 2 telemetry probes and 2 separate technical calls: 16 overall. One call per attempt, automatic retries disabled. Proposed per-call caps: 4,000 total input tokens including platform/transfer context, 2,000 generated tokens including reasoning, 120 seconds. These are not observed usage. A supported subscription runtime must make the bounds enforceable before dispatch; reject oversized packets and reserve the next call's maximum. Stop at included-subscription limits without buying credits or enabling overages. No new credentials, installations, security changes or sandbox bypasses are allowed.
+
+**Reuse existing telemetry:** the harness imports the existing schema/accounting module. The receipt validator requires subscription billing, all four matched task pairs, exactly one W initial and E baseline per task, at most one linked E takeover, and the frozen requested/confirmed model checks. It rejects probes/forced-technical logs mixed into comparison records. Required `task_id`, actual model, input/output, stage/attempt/request linkage and safe raw usage provenance remain unchanged. Cache unavailable stays null. The validator produces overall and per-task token totals, not money or an inferred quota ratio. It is a consistency checker, not proof of server authenticity; the supported collector and source semantics must be verified independently. No live collector is available here.
+
+Offline commands, using the already available dependencies:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python docs/experiments/toy-poc-v1/harness.py synthetic
+PYTHONDONTWRITEBYTECODE=1 python docs/experiments/toy-poc-v1/harness.py prepare --out /tmp/toy-poc-agent-packets
+```
+
+The export directory must not already exist. The harness also offers visible-only `route` and `handoff`, controller-only `grade` requiring the pre-frozen candidate SHA-256, and `validate-usage` for later externally collected receipts. It contains **no model dispatcher or paid API path**. Missing candidate files are infrastructure errors; malformed candidate JSON is visible evidence. No untrusted model code is executed. The synthetic report uses identical invented token counters for W and E to avoid suggesting a winner; it does not replace real calls.
+
+**Observed now:** a bounded App Server initialization, without a model turn, again exited 1 with a read-only error and no initialization response. CLI `0.159.0-alpha.3` reports ChatGPT login, which does not establish a working measurable runner. New real model calls: 0; token/allowance comparison: not performed. The prior sandbox diagnosis remains unresolved and was not bypassed. The Windows information below is user-reported history, not work performed on the local PC during this PoC.
+
+**Minimal next step:** provide a supported, already-authorized cloud subscription runtime exposing actual model identity and task-attributed server input/output usage, with safe raw receipts, optional cache counters and enforceable tool/context boundaries. It must initialize normally and support the frozen caps without new payments. Then the first bounded probe can test the actual receipt contract; only a successful gate permits the four-task comparison. Until that change, stop after offline preparation rather than repeating unmeasurable calls.
+
+## Optional future protocol — not the current plan
+
+The retained sections below document the earlier larger proposal. Their financial scenarios are historical and do not create a paid fallback for the subscription-only PoC.
 
 Version: 2026-09-30. This is a reviewable plan and offline validation package, not authorization or evidence of a new benchmark run. No model calls, API spending, infrastructure installation or container starts were performed for this preparation. Work stayed in the cloud workspace.
 

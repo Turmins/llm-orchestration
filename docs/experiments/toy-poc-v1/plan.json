@@ -1,0 +1,82 @@
+{
+  "version": "toy-poc-v1",
+  "date": "2026-10-01",
+  "status": "OFFLINE_READY_REAL_RUNTIME_BLOCKED",
+  "kind": "original_toy_poc_not_benchmark",
+  "current_plan": true,
+  "selection": {
+    "tasks": [
+      "P01",
+      "P02",
+      "P03",
+      "P04"
+    ],
+    "order_fixed_before_calls": true,
+    "replace_tasks_after_results": false
+  },
+  "models": {
+    "W": "gpt-6-luna",
+    "E": "gpt-6.1-sol",
+    "effort": "medium",
+    "speed": "Standard, must be confirmed"
+  },
+  "policies": {
+    "W-to-E": "one initial W; if the frozen visible gate fails, one fresh E takeover; no retry or consultation",
+    "E-only": "one independent E from original task; no W answer, retry or consultation"
+  },
+  "route": "only JSON parse/schema or declared visible-invariant failures; never hidden score; infrastructure/usage/model-attribution failure stops instead of escalating",
+  "hidden_acceptance": "freeze all policy answers and their byte hashes before separate controller-only grade; no grader feedback into routing",
+  "forced_handoff": {
+    "separate_technical_case": true,
+    "task_id": "P03",
+    "calls_max": 2,
+    "economic_evidence": false,
+    "real_executed": false
+  },
+  "limits_plan": {
+    "comparative_tasks": 4,
+    "W_initial_calls": 4,
+    "E_baseline_calls": 4,
+    "E_takeover_calls_max": 4,
+    "telemetry_probes_max": 2,
+    "forced_technical_calls_max": 2,
+    "all_calls_max": 16,
+    "W_calls_max": 6,
+    "E_calls_max": 10,
+    "input_tokens_per_call_max": 4000,
+    "generated_tokens_per_call_max": 2000,
+    "seconds_per_call_max": 120,
+    "automatic_retries": 0
+  },
+  "runtime_preflight_observed": {
+    "cli_version": "0.159.0-alpha.3",
+    "login_status": "ChatGPT",
+    "app_server_initialize_exit": 1,
+    "initialize_response_received": false,
+    "read_only_error": true,
+    "new_model_calls": 0,
+    "new_api_calls": 0
+  },
+  "gate": {
+    "supported_subscription_runtime_available": false,
+    "verified_actual_model_and_per_call_usage": false,
+    "isolated_grader_runtime_validated": false,
+    "real_execution_allowed_now": false,
+    "new_credentials_allowed": false,
+    "installs_allowed": false,
+    "security_changes_allowed": false
+  },
+  "reuse": {
+    "usage_schema": "../economic-protocol-v1/usage.schema.json",
+    "accounting": "../economic-protocol-v1/accounting.py"
+  },
+  "future_only": "10 calibration + 50 eval remain optional; historical $110 estimate is not a current recommendation or fallback",
+  "billing_scope": {
+    "allowed": "existing_subscription_only",
+    "paid_api_path": false,
+    "new_spending_allowed": false,
+    "measurement_objective": "per-task per-model input/output/cache tokens including all attempts and handoffs; not money or inferred subscription allowance",
+    "stop_at_included_limit": true,
+    "credit_topups_or_overages_allowed": false
+  }
+}

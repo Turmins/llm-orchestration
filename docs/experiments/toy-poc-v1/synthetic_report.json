@@ -1,0 +1,42 @@
+{
+  "kind": "SYNTHETIC_MECHANICS_ONLY",
+  "real_model_calls": 0,
+  "real_usage": null,
+  "real_token_comparison": null,
+  "checks_passed": [
+    "four reference answers independently audited",
+    "all-pass W causes no takeover",
+    "agent packet allowlist",
+    "same four tasks aggregated by policy; invented counters only",
+    "visible-failure handoff packet and extra-call accounting",
+    "hidden-only failure cannot trigger takeover",
+    "forced handoff separate from economic rows",
+    "synthetic receipts rejected by real gate"
+  ],
+  "synthetic_only_counter_example": {
+    "physical": {
+      "input_total": 800,
+      "output_total": 160,
+      "calls": 8
+    },
+    "logical": {
+      "W-to-E": {
+        "input_total": 400,
+        "output_total": 80,
+        "calls": 4
+      },
+      "E-only": {
+        "input_total": 400,
+        "output_total": 80,
+        "calls": 4
+      }
+    }
+  },
+  "unperformed": [
+    "actual-model confirmation",
+    "live usage semantics",
+    "real W-to-E transfer",
+    "runtime grader isolation",
+    "real subscription token comparison"
+  ]
+}

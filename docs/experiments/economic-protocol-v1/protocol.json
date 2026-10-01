@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "date": "2026-09-30",
-  "status": "preparation_only_not_authorized_to_run",
+  "status": "optional_future_not_current",
   "model_calls_authorized_now": false,
   "models": {
     "W": "gpt-6-luna",
@@ -63,7 +63,9 @@
     "proposed_api_ceiling_usd": 110,
     "api_spend_authorized": false,
     "infrastructure_budget": null,
-    "subscription_quota_budget": null
+    "subscription_quota_budget": null,
+    "current_recommendation": false,
+    "paid_fallback_for_current_poc": false
   },
   "acceptance": {
     "grader": "independent hidden FAIL_TO_PASS and PASS_TO_PASS on immutable candidate",
@@ -72,5 +74,7 @@
     "gold_or_test_patches_agent_visible": false,
     "oracle_routing_baseline_enabled": false
   },
-  "stop": "all unresolved gates block execution; after calibration require explicit review before eval; this preparation ends without polling or new trials"
+  "stop": "all unresolved gates block execution; after calibration require explicit review before eval; this preparation ends without polling or new trials",
+  "current_plan": false,
+  "current_stage": "../toy-poc-v1/plan.json"
 }
