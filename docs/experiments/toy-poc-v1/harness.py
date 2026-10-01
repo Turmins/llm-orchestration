@@ -13,7 +13,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT.parent / 'economic-protocol-v1'))
-from accounting import SCHEMA, normalize, aggregate, digest
 
 TASKS = {t['task_id']: t for t in json.loads((ROOT/'tasks.json').read_text())['tasks']}
 
@@ -122,6 +121,7 @@ def grade(task_id,candidate):
 
 
 def synthetic_receipt(task_id,strategy,stage,role,serial):
+    from accounting import SCHEMA, digest
     r={k:None for k in SCHEMA['required']}
     prefix='SYNTHETIC-'+str(serial)
     r.update(schema_version='1.0',record_kind='synthetic',record_id=prefix,physical_call_id=prefix,
@@ -141,6 +141,7 @@ def synthetic_receipt(task_id,strategy,stage,role,serial):
 
 
 def synthetic():
+    from accounting import normalize, aggregate
     checks=[]
     # Independently worked answers audit algorithmic references; no model involved.
     audited={'P01':{'intervals':[[0,4],[4,5],[8,12]]},'P02':{'balances':{'A':37,'B':16,'C':27}},
@@ -196,6 +197,7 @@ def main():
         result={'kind':'agent_packets_only','task_ids':list(TASKS),'real_execution_ready':False}
     elif a.mode=='synthetic':result=synthetic()
     elif a.mode=='validate-usage':
+        from accounting import aggregate
         if not a.usage:p.error('--usage required')
         rows=load(a.usage)
         counts={tid:{'W':0,'E':0,'takeover':0} for tid in TASKS}

@@ -1,0 +1,21 @@
+{
+  "kind": "SYNTHETIC_OFFLINE_CLI_RUNNER_VALIDATION",
+  "date": "2026-10-01",
+  "new_model_calls": 0,
+  "new_api_calls": 0,
+  "windows_executions": 0,
+  "powershell_parser_available": false,
+  "powershell_syntax_validation": "unavailable; ASCII wrapper statically reviewed only",
+  "python_syntax": "PASS",
+  "cli_runner_tests_passed": 16,
+  "existing_preparation_tests_passed": 17,
+  "existing_toy_harness_synthetic": "PASS",
+  "bilingual_structure_code_links_numbers": "PASS",
+  "user_smoke_counters_used_as_synthetic_fixture": true,
+  "original_windows_jsonl_accessed": false,
+  "installed_cloud_cli_help_reviewed": "0.159.0-alpha.3",
+  "target_windows_cli_version_user_reported": "0.159.2",
+  "actual_model_attestation_available": false,
+  "hidden_grader_host_isolation_verified": false,
+  "new_dependencies": 0
+}

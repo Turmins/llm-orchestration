@@ -9,6 +9,7 @@ Version / Версия: **2026-10-01**
 | First experiment / Первый эксперимент | [Experiment plan](en/first-experiment.md) | [План эксперимента](ru/first-experiment.md) |
 | First pilot results / Результаты первого пилота | [Observed results](en/first-pilot-results.md) | [Наблюдаемые результаты](ru/first-pilot-results.md) |
 | Telemetry diagnostic / Диагностика телеметрии | [Blocker and options](en/telemetry-diagnostic.md) | [Блокер и варианты](ru/telemetry-diagnostic.md) |
+| Windows four-task runner / Windows runner на четырёх задачах | [Run instructions](en/windows-four-task-poc.md) | [Инструкция запуска](ru/windows-four-task-poc.md) |
 | Preparation checkpoint / Контрольная точка подготовки | [Preparation only](en/preparation-checkpoint.md) | [Только подготовка](ru/preparation-checkpoint.md) |
 | Economic experiment protocol / Протокол экономического эксперимента | [Current four-task subscription PoC](en/economic-experiment-protocol.md) | [Текущий подписочный PoC на четырёх задачах](ru/economic-experiment-protocol.md) |
 

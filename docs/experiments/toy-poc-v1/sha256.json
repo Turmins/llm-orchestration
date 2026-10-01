@@ -1,7 +1,11 @@
 {
   "LICENSE": "4bb0218ec7d83d553843ee2b31cd851462fc73cfd9ec87bc26f5ac14bb85f6a9",
-  "harness.py": "12cb00e841cbecdf843de9fcddac4e87dac71b5c1c105658deaad0d6b3ee929e",
+  "harness.py": "8a713b512a59b22b6ae8d5cb21b0e4a6ee9d0da0072f404904c905b82a1e51db",
   "plan.json": "781daea8df39f0249b5edc88bdbfe251cf16f3feffd8a37aa96a7c47bdb0732e",
   "synthetic_report.json": "04125fce529a63824c3c9ce5bb460a67b37c310566eb6c40ad56ac753b6f680b",
-  "tasks.json": "9139a16cfc067e875d55f0af3bc6720d125615e9c12aa4d573c577b2de5875b4"
+  "tasks.json": "9139a16cfc067e875d55f0af3bc6720d125615e9c12aa4d573c577b2de5875b4",
+  "cli_runner.py": "ddef2f1fa3a046a4b99525453f15d4a3d96ea32eb04223e4ed37d1228ff58ea5",
+  "run-poc.ps1": "a20455c980d597ce36dce7038ff63636de8841af5796a1154fdd68e0a3d2a05c",
+  "test_cli_runner.py": "2dd7babd27ec6a17d863079cc3729949698061d60768356f12a85c225bcb5418",
+  "cli-validation.json": "546814c1944079bd302cf34cd6795965c372bc4b906f9651def1012243a2e4a4"
 }
