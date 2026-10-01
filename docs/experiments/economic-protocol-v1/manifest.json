@@ -22,7 +22,7 @@
     "deepset-ai__haystack-9527",
     "feder-observatory__stellarphot-519"
   ],
-  "metadata_access": "Official metadata API, commit page and Harbor page unavailable through browser tool on 2026-09-30; no dataset rows fetched in this preparation.",
+  "metadata_access": "Rechecked 2026-10-01: browser cannot access official Hugging Face metadata API or July Harbor page; cloud urllib metadata API request fails with Tunnel connection failed: 403 Forbidden. No dataset rows fetched. This is an access-path failure, not proof the dataset is absent.",
   "license": "Dataset card identifies CC-BY-4.0; preserve attribution and verify individual repository licenses before use. No dataset contents redistributed.",
   "remaining_gates": [
     "immutable revisions and eligible metadata",

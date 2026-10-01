@@ -1,5 +1,7 @@
 # Economic Experiment: Four-Task PoC and Optional Future Protocol
 
+Latest control: [preparation-only checkpoint](preparation-checkpoint.md). Execution is paused; no new runtime/model probes are authorized by this preparation.
+
 ## Current stage — subscription-only four-task PoC
 
 Updated 2026-10-01. **Only the existing subscription is permitted. Paid API is neither the current path nor a fallback.** The current objective is per-task, per-model input/output and available cache token measurements, including every attempt and transfer. Token use is not automatically included-allowance consumption. The 10+50 design below is an optional later stage; its historical $110 estimate is not a current recommendation or authorization.
