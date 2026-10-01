@@ -1,0 +1,7 @@
+/docs/experiments/toy-poc-v1/cli_runner.py text eol=lf
+/docs/experiments/toy-poc-v1/harness.py text eol=lf
+/docs/experiments/toy-poc-v1/test_cli_runner.py text eol=lf
+/docs/experiments/toy-poc-v1/run-poc.ps1 text eol=lf
+/docs/experiments/toy-poc-v1/small-test-plan.json text eol=lf
+/docs/experiments/toy-poc-v1/failed-launches-user-ledger.json text eol=lf
+/docs/experiments/toy-poc-v1/tasks.json -text

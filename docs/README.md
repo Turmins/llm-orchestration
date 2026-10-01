@@ -4,6 +4,7 @@ Version / Версия: **2026-10-01**
 
 | Document / Документ | English | Русский |
 |---|---|---|
+| Active controller fixes and offline verification / Исправления активного controller и offline-проверки | [Verified implementation](en/controller-audit-fixes-2026-10-01.md) | [Проверенная реализация](ru/controller-audit-fixes-2026-10-01.md) |
 | Complete architecture review / Полный архитектурный анализ | [Full review](en/hierarchical-llm-architecture-review-updated.md) | [Полный анализ](ru/hierarchical-llm-architecture-review-updated.md) |
 | Independent conclusion and change table / Независимый вывод и таблица правок | [Independent review](en/independent-review.md) | [Независимый пересмотр](ru/independent-review.md) |
 | First experiment / Первый эксперимент | [Experiment plan](en/first-experiment.md) | [План эксперимента](ru/first-experiment.md) |

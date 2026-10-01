@@ -3,9 +3,13 @@
 param(
     [string]$CodexExe = 'codex.exe',
     [string]$PythonExe = '',
+    [Parameter(Mandatory = $true)]
+    [string]$DataDir,
     [switch]$Run,
-    [switch]$AcceptUnverifiedModelAndIsolation,
-    [switch]$ForcedHandoffOnly
+    [switch]$RuntimeReviewed,
+    [switch]$ExportOnly,
+    [string]$PriorLedger = '',
+    [switch]$AcceptUnverifiedModelAndIsolation
 )
 $ErrorActionPreference = 'Stop'
 $runner = Join-Path $PSScriptRoot 'cli_runner.py'
@@ -20,11 +24,13 @@ if (-not $PythonExe) {
         throw 'Existing Python 3.9+ is required. Nothing has been installed or run.'
     }
 }
-$pythonArgs += @('-X', 'utf8', $runner, '--codex', $CodexExe)
+$pythonArgs += @('-B', '-X', 'utf8', $runner, '--codex', $CodexExe, '--data-dir', $DataDir)
 if ($Run) { $pythonArgs += '--run' }
+if ($RuntimeReviewed) { $pythonArgs += '--runtime-reviewed' }
+if ($ExportOnly) { $pythonArgs += '--export-only' }
+if ($PriorLedger) { $pythonArgs += @('--prior-ledger', $PriorLedger) }
 if ($AcceptUnverifiedModelAndIsolation) { $pythonArgs += '--accept-limitations' }
-if ($ForcedHandoffOnly) { $pythonArgs += '--forced-handoff-only' }
 # Python passes prompt bytes directly to stdin and captures raw byte streams.
 # No PowerShell native pipeline, Out-File, locale conversion or shell interpolation.
 & $PythonExe @pythonArgs
-if ($LASTEXITCODE -ne 0) { throw "PoC controller stopped (exit $LASTEXITCODE). See its run directory." }
+if ($LASTEXITCODE -ne 0) { throw "PoC controller stopped (exit $LASTEXITCODE). See the private ledger and project export." }
