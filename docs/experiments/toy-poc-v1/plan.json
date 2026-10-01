@@ -78,5 +78,30 @@
     "measurement_objective": "per-task per-model input/output/cache tokens including all attempts and handoffs; not money or inferred subscription allowance",
     "stop_at_included_limit": true,
     "credit_topups_or_overages_allowed": false
+  },
+  "last_explicit_smoke_test": {
+    "date": "2026-10-01",
+    "command": "codex app-server --stdio",
+    "configuration_overrides": false,
+    "runtime_start_count": 1,
+    "exit_code": 1,
+    "failure_stage": "sqlite_state_initialization_before_protocol",
+    "stderr_excerpt": [
+      "Read-only file system (os error 30)",
+      "failed to initialize sqlite state runtime"
+    ],
+    "runtime_home_path_omitted_from_public_report": true,
+    "account_read_reached": false,
+    "model_calls_dispatched": 0,
+    "intended_model": "gpt-6-luna",
+    "requested_model_sent": null,
+    "actual_model": null,
+    "input_tokens": null,
+    "output_tokens": null,
+    "cache_read_tokens": null,
+    "cache_write_tokens": null,
+    "usage_source": "unavailable",
+    "inference_scope": "unavailable",
+    "retry_or_alternative_used": false
   }
 }

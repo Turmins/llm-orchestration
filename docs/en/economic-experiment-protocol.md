@@ -38,6 +38,29 @@ The export directory must not already exist. The harness also offers visible-onl
 
 **Minimal next step:** provide a supported, already-authorized cloud subscription runtime exposing actual model identity and task-attributed server input/output usage, with safe raw receipts, optional cache counters and enforceable tool/context boundaries. It must initialize normally and support the frozen caps without new payments. Then the first bounded probe can test the actual receipt contract; only a successful gate permits the four-task comparison. Until that change, stop after offline preparation rather than repeating unmeasurable calls.
 
+## One explicitly requested runtime smoke-test — 2026-10-01
+
+This is a separate startup smoke-test, not an economic comparison or a repeat of the four-task PoC. Exactly one runtime start was attempted with the installed CLI `0.159.0-alpha.3`, using the unchanged configuration:
+
+```bash
+codex app-server --stdio
+```
+
+It exited with code 1 before protocol initialization and before an account query or model turn. Stderr reported `Read-only file system (os error 30)` and `failed to initialize sqlite state runtime`; the latter identified the managed runtime home. The full repeated runtime-home path is omitted from this public report. No sandbox/security/auth configuration, credentials or installation was changed. No second startup, alternative runner, container, paid API or local PC was used.
+
+| Observation | Result |
+|---|---|
+| Stage | Startup: SQLite state initialization |
+| Runtime starts in this smoke-test | 1 |
+| Model calls dispatched | 0 |
+| Intended model if startup/auth succeeded | `gpt-6-luna` |
+| Requested model actually sent / confirmed actual model | `null` / `null` |
+| Input / output / cache-read / cache-write tokens | `null` / `null` / `null` / `null` |
+| Usage source / inference scope | `unavailable` / `unavailable` |
+| Subscription authorization via running server | Not reached |
+
+These nulls mean unavailable telemetry, not zero consumption. No arithmetic answer was generated. The verified blocker is the installed runtime's startup failure; token comparison remains unperformed. The minimum next step is a platform-supported subscription runtime that initializes normally and exposes authenticated model and per-call usage events. Stop here; the result does not authorize a workaround or recurring tests.
+
 ## Optional future protocol — not the current plan
 
 The retained sections below document the earlier larger proposal. Their financial scenarios are historical and do not create a paid fallback for the subscription-only PoC.
