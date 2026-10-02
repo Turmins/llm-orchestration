@@ -4,6 +4,7 @@ Version / Версия: **2026-10-01**
 
 | Document / Документ | English | Русский |
 |---|---|---|
+| First corrected-controller attempt / Первая попытка исправленного контроллера | [Cause and safe postmortem export](en/attempt-postmortem-2026-10-02.md) | [Причина и безопасный postmortem export](ru/attempt-postmortem-2026-10-02.md) |
 | Measured host readiness / Измеренная готовность host | [Handshake and remaining blocker](en/runtime-host-readiness-2026-10-02.md) | [Handshake и оставшийся блокер](ru/runtime-host-readiness-2026-10-02.md) |
 | Active controller fixes and offline verification / Исправления активного controller и offline-проверки | [Verified implementation](en/controller-audit-fixes-2026-10-01.md) | [Проверенная реализация](ru/controller-audit-fixes-2026-10-01.md) |
 | Complete architecture review / Полный архитектурный анализ | [Full review](en/hierarchical-llm-architecture-review-updated.md) | [Полный анализ](ru/hierarchical-llm-architecture-review-updated.md) |
