@@ -12,6 +12,11 @@ param(
     [switch]$AcceptUnverifiedModelAndIsolation
 )
 $ErrorActionPreference = 'Stop'
+if ($CodexExe -eq 'codex.exe' -and -not (Get-Command codex.exe -ErrorAction SilentlyContinue)) {
+    # Existing inspected desktop bundle only; Python pins both executable hashes.
+    $bundledCli = Join-Path $env:LOCALAPPDATA 'OpenAI\Codex\bin\de8a38d2100ae498\codex.exe'
+    if (Test-Path -LiteralPath $bundledCli -PathType Leaf) { $CodexExe = $bundledCli }
+}
 $runner = Join-Path $PSScriptRoot 'cli_runner.py'
 $pythonArgs = @()
 if (-not $PythonExe) {

@@ -1,0 +1,16 @@
+{
+  "evidence_kind": "OBSERVED_NON_INFERENCE_STDIO_HANDSHAKE",
+  "date": "2026-10-02",
+  "status": "passed",
+  "inference_launches": 0,
+  "host_sha256": "850eca242991c4271d1b0fd42e096423efac0046e984f9d2124319dae181a945",
+  "cli_sha256": "34549ded6e2aee87c911c62d025e52e26c488683d0f489cd68f756baef1a6df6",
+  "host_resolution": "pinned_bundle_sibling",
+  "host_availability": "stdio_handshake_verified",
+  "protocol_version": 1,
+  "required_capabilities": ["session-cell-execution-resource-limits", "yield-observation"],
+  "effective_exec_startup_verified": false,
+  "effective_tool_mode": "unknown",
+  "actual_model_verified": false,
+  "real_budget": {"cap": 8, "consumed": 2, "remaining": 6}
+}

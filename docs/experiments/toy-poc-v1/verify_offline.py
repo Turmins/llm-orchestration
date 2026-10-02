@@ -23,10 +23,10 @@ def main():
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--demo-export', action='store_true')
     args = parser.parse_args()
-    source_names = ['cli_runner.py', 'harness.py', 'test_cli_runner.py', 'verify_offline.py']
+    source_names = ['cli_runner.py', 'runtime_host.py', 'harness.py', 'test_cli_runner.py', 'verify_offline.py']
     for name in source_names:
         ast.parse((r.ROOT / name).read_text(encoding='utf-8'))
-    for name in ('tasks.json', 'small-test-plan.json', 'failed-launches-user-ledger.json'):
+    for name in ('tasks.json', 'small-test-plan.json', 'failed-launches-user-ledger.json', 'host-readiness-2026-10-02.json'):
         r.strict_json((r.ROOT / name).read_text(encoding='utf-8-sig'))
     original = subprocess.Popen
     children = []
@@ -75,6 +75,9 @@ def main():
                     links=re.findall(r'\]\(([^)]+)\)', text),
                     literals=re.findall(r'`([^`\n]+)`', text))
     parity = structure(reports[0]) == structure(reports[1])
+    host_reports = [(r.PROJECT / 'docs' / language / 'runtime-host-readiness-2026-10-02.md').read_text(encoding='utf-8')
+                    for language in ('en', 'ru')]
+    parity = parity and structure(host_reports[0]) == structure(host_reports[1])
     success = result.wasSuccessful() and not result.skipped and ps_errors == 0 and diff.returncode == 0 and parity
     evidence = dict(schema_version=1, kind='OFFLINE_REGRESSION_ONLY', generated_at=r.now(),
         status='passed' if success else 'failed', tests_run=result.testsRun,
@@ -82,7 +85,7 @@ def main():
         failed_tests=[test.id() for test, _ in result.failures + result.errors],
         elapsed_seconds=time.monotonic()-started, python_version=sys.version.split()[0],
         optimization=sys.flags.optimize, platform='Windows' if os.name == 'nt' else os.name,
-        ast_files=source_names, strict_json_files=3, powershell_parser_errors=ps_errors,
+        ast_files=source_names, strict_json_files=4, powershell_parser_errors=ps_errors,
         git_diff_check_exit=diff.returncode, bilingual_structure_and_literal_parity=parity,
         real_codex_launches=0, actual_model_success_demonstrated=False,
         fixture_children=children, historical_launches=2, remaining_real_launches=6,

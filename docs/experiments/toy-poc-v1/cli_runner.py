@@ -17,6 +17,7 @@ import tempfile
 import time
 
 import harness
+import runtime_host
 
 ROOT = Path(__file__).resolve().parent
 PROJECT = ROOT.parents[2]
@@ -252,7 +253,7 @@ def source_manifest():
         or plan['max_new_launches'] != 6 or plan['models'] != MODELS):
         raise Stop('unsupported_plan')
     hashes = {}
-    for name in ('cli_runner.py', 'harness.py', 'run-poc.ps1', 'tasks.json', 'small-test-plan.json'):
+    for name in ('cli_runner.py', 'runtime_host.py', 'harness.py', 'run-poc.ps1', 'tasks.json', 'small-test-plan.json'):
         raw = (ROOT / name).read_bytes()
         hashes[name] = dict(working_tree_sha256=sha(raw), lf_sha256=sha(raw.replace(b'\r\n', b'\n')))
     return dict(schema_version=2, plan=plan, source_hashes=hashes, limits=LIMITS,
@@ -479,8 +480,12 @@ def preflight(exe, directory):
     if not {'shell_tool', 'unified_exec', 'apps', 'plugins', 'multi_agent'} <= features:
         raise Stop('required_tool_restriction_missing')
     disabled = [x for x in DISABLE if x in features]
+    try:
+        host = runtime_host.probe(found)
+    except (ValueError, OSError):
+        raise Stop('host_readiness_failed') from None
     return found, disabled, dict(version='0.159.2', executable_sha256=sha(Path(found).read_bytes()),
-        disabled_features=disabled, host_availability='unverified', effective_tool_mode='unknown',
+        disabled_features=disabled, effective_tool_mode='unknown', **host,
         chatgpt_login_confirmed=True, argv_policy=base_args('codex.exe', disabled)[1:])
 
 
@@ -607,7 +612,7 @@ STOP_CODES = {'preflight_only', 'runtime_review_required', 'limitations_ack_requ
     'preflight_failed', 'cli_version_mismatch', 'required_exec_flag_missing', 'required_global_flag_missing',
     'required_tool_restriction_missing', 'interrupted_controller', 'python_3_9_required',
     'runtime_manifest_changed', 'cli_executable_mismatch', 'prior_usage_unknown', 'orphan_process_artifact',
-    'attempt_outside_plan', 'invalid_takeover_parent', 'invalid_initial_parent',
+    'attempt_outside_plan', 'invalid_takeover_parent', 'invalid_initial_parent', 'host_readiness_failed',
     'prompt_byte_threshold', 'duplicate_invocation'}
 
 
@@ -623,7 +628,7 @@ def validate_export(result):
     keys(result['physical'], {'stages', 'complete', 'unresolved_attempts', 'input_plus_output',
         'actual_model_verified', 'subscription_allowance', 'api_charge', *FIELDS,
         *(k + '_known_subtotal' for k in FIELDS)})
-    keys(result['source_hashes'], {'cli_runner.py', 'harness.py', 'run-poc.ps1', 'tasks.json', 'small-test-plan.json'})
+    keys(result['source_hashes'], {'cli_runner.py', 'runtime_host.py', 'harness.py', 'run-poc.ps1', 'tasks.json', 'small-test-plan.json'})
     keys(result['settings'], {'models', 'effort', 'speed', 'billing_mode', 'cli_version', 'cli_sha256'})
     keys(result['settings']['models'], {'W', 'E'})
     for hashes in result['source_hashes'].values():
@@ -769,7 +774,7 @@ def main(argv=None):
                         help='One persistent private cap8 directory outside this checkout; reuse on every restart')
     parser.add_argument('--run', action='store_true')
     parser.add_argument('--runtime-reviewed', action='store_true',
-                        help='Prior verification of compatible authorized isolated runtime; does not install a host')
+                        help='Deprecated compatibility option; readiness is measured by preflight')
     parser.add_argument('--accept-limitations', action='store_true')
     parser.add_argument('--export-only', action='store_true', help='Replay/export without any CLI calls')
     parser.add_argument('--prior-ledger', type=Path, default=ROOT / 'failed-launches-user-ledger.json')
@@ -796,8 +801,6 @@ def main(argv=None):
             write_json(owner, identity)
         try:
             recover(ledger)
-            if args.run and not args.runtime_reviewed:
-                raise Stop('runtime_review_required')
             if args.run and not args.accept_limitations:
                 raise Stop('limitations_ack_required')
             if args.run and any(not r.get('imported_prior_failure') and not r['telemetry']['valid'] for r in ledger.rows()):

@@ -460,7 +460,7 @@ class RoutingExportTests(unittest.TestCase):
                     self.skipTest('Junction creation unavailable in test workspace')
                 with self.assertRaisesRegex(r.Stop,'linked_path_rejected'): r.no_links(root/'link'/'export.json')
 
-    def test_cli_export_only_and_unreviewed_run_never_call_runtime(self):
+    def test_cli_export_only_and_unacknowledged_run_never_call_runtime(self):
         for tail,code in ((['--export-only'],0),(['--run'],2)):
             with tempfile.TemporaryDirectory(prefix='SYNTHETIC-main-') as tmp:
                 root=Path(tmp); project=root/'project'; project.mkdir()
@@ -473,7 +473,7 @@ class RoutingExportTests(unittest.TestCase):
     def test_cli_run_and_resume_synthetic_only(self):
         with tempfile.TemporaryDirectory(prefix='SYNTHETIC-main-') as tmp:
             root=Path(tmp); project=root/'project'; project.mkdir()
-            args=['--data-dir',str(root/'private'),'--run','--runtime-reviewed','--accept-limitations']
+            args=['--data-dir',str(root/'private'),'--run','--accept-limitations']
             with patch.object(r,'PROJECT',project),patch.object(r,'source_manifest',side_effect=manifest), \
                  patch.object(r,'preflight',return_value=('SYNTHETIC.exe',[],{'SYNTHETIC':'fixed-runtime'})), \
                  patch.object(r,'capture',side_effect=synthetic_capture()) as capture:
@@ -558,10 +558,15 @@ class WindowsPreflightTests(unittest.TestCase):
                 return {'exit_code':0},out.encode(),b''
             with patch.object(r.shutil,'which',return_value=str(exe)),patch.object(r,'capture',side_effect=capture), \
                  patch.object(r,'EXE_SHA',r.sha(exe.read_bytes())), \
+                 patch.object(r.runtime_host,'probe',return_value={'host_availability':'stdio_handshake_verified'}) as probe, \
                  patch.dict(os.environ,{'OPENAI_API_KEY':'','CODEX_API_KEY':'','OPENAI_BASE_URL':''}):
                 found,disabled,info=r.preflight(str(exe),root)
-            self.assertEqual(calls,[['--version'],['--help'],['exec','--help'],['login','status'],['features','list']])
-            self.assertEqual(info['host_availability'],'unverified')
+                probe.assert_called_once_with(str(exe))
+                probe.side_effect = ValueError('SYNTHETIC host rejected')
+                with self.assertRaisesRegex(r.Stop,'host_readiness_failed'):
+                    r.preflight(str(exe),root)
+            self.assertEqual(calls,[['--version'],['--help'],['exec','--help'],['login','status'],['features','list']]*2)
+            self.assertEqual(info['host_availability'],'stdio_handshake_verified')
             self.assertEqual(info['executable_sha256'],r.sha(exe.read_bytes()))
 
     def test_unexpected_binary_hash_stops_before_any_runtime_call(self):
@@ -592,6 +597,54 @@ class WindowsPreflightTests(unittest.TestCase):
         result=shell.CommandLineToArgvW(subprocess.list2cmdline(argv),ctypes.byref(count))
         try: self.assertEqual([result[i] for i in range(count.value)],argv)
         finally: ctypes.windll.kernel32.LocalFree(result)
+
+
+class HostReadinessTests(unittest.TestCase):
+    def ready(self, **changes):
+        import struct
+        hello = dict(type='connection/ready', selectedVersion=1, capabilities=r.runtime_host.CAPS)
+        hello.update(changes)
+        payload = json.dumps(hello).encode('utf-8')
+        return struct.pack('<I', len(payload)) + payload
+
+    def test_host_frame_rejects_partial_multiple_and_incompatible(self):
+        ready = self.ready()
+        self.assertEqual(r.runtime_host.decode_ready(ready)['protocol_version'], 1)
+        for data in (ready[:-1], ready + ready, b'', self.ready(selectedVersion=True),
+                     self.ready(selectedVersion=2), self.ready(capabilities=[]),
+                     self.ready(capabilities=r.runtime_host.CAPS * 2), self.ready(extra='private')):
+            with self.subTest(data=data[:20]), self.assertRaises(ValueError):
+                r.runtime_host.decode_ready(data)
+
+    def test_host_probe_pins_before_spawn(self):
+        with tempfile.TemporaryDirectory(prefix='SYNTHETIC-host-') as tmp:
+            cli = Path(tmp) / 'codex.exe'; cli.write_bytes(b'SYNTHETIC')
+            with patch.object(r.runtime_host.shutil, 'which', return_value=str(cli)), \
+                 patch.object(subprocess, 'Popen', side_effect=AssertionError('no unpinned child')):
+                with self.assertRaisesRegex(ValueError, 'cli_executable_mismatch'):
+                    r.runtime_host.probe(cli)
+
+    def test_host_probe_stdio_and_timeout_reaps_own_child(self):
+        from unittest.mock import Mock
+        with tempfile.TemporaryDirectory(prefix='SYNTHETIC-host-') as tmp:
+            cli = Path(tmp) / 'codex.exe'; cli.write_bytes(b'SYNTHETIC')
+            host = cli.with_name('codex-code-mode-host.exe'); host.write_bytes(b'SYNTHETIC-host')
+            child = Mock(returncode=0)
+            child.communicate.return_value = (self.ready(), b'')
+            with patch.object(r.runtime_host.shutil, 'which', return_value=str(cli)), \
+                 patch.object(r.runtime_host, 'CLI_SHA', r.sha(cli.read_bytes())), \
+                 patch.object(r.runtime_host, 'HOST_SHA', r.sha(host.read_bytes())), \
+                 patch.object(subprocess, 'Popen', return_value=child) as launch:
+                self.assertEqual(r.runtime_host.probe(cli)['host_availability'], 'stdio_handshake_verified')
+                self.assertEqual(launch.call_args.args[0], [str(host)])
+                self.assertFalse(launch.call_args.kwargs['shell'])
+                self.assertEqual(child.communicate.call_args.kwargs['timeout'], 15)
+                child.communicate.side_effect = [subprocess.TimeoutExpired('SYNTHETIC', 15), (b'', b'')]
+                child.poll.return_value = None
+                with self.assertRaisesRegex(ValueError, 'host_handshake_interrupted'):
+                    r.runtime_host.probe(cli)
+                child.kill.assert_called_once()
+                self.assertEqual(child.communicate.call_count, 3)
 
 
 if __name__=='__main__':
