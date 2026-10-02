@@ -8,6 +8,28 @@ import re
 import cli_runner as r
 
 EXPORT = 'poc-exports/cap8-serial-public-toy-v2'
+VISIBLE_CODES = {'candidate_not_object', 'unexpected_object_keys', 'intervals_not_list',
+    'invalid_interval_pair', 'nonpositive_interval', 'intervals_not_sorted',
+    'adjacent_intervals_overlap', 'visible_contract_failed'}
+
+
+def p01_visible_codes(candidate):
+    """Only public structural rules; no original coverage or hidden reference."""
+    if type(candidate) is not dict:
+        return ['candidate_not_object']
+    codes = [] if set(candidate) == {'intervals'} else ['unexpected_object_keys']
+    xs = candidate.get('intervals')
+    if type(xs) is not list:
+        return codes + ['intervals_not_list']
+    if not all(type(x) is list and len(x) == 2 and all(type(v) is int for v in x) for x in xs):
+        return codes + ['invalid_interval_pair']
+    if not all(a < b for a, b in xs):
+        codes.append('nonpositive_interval')
+    if xs != sorted(xs):
+        codes.append('intervals_not_sorted')
+    elif any(a[1] > b[0] for a, b in zip(xs, xs[1:])):
+        codes.append('adjacent_intervals_overlap')
+    return codes
 
 
 def snapshot(project):
@@ -90,6 +112,8 @@ def attempt(row, out, err):
         stderr_sha256=r.sha(err), stdout_sha256=r.sha(out),
         usage_status=parsed['usage_status'], incurred_usage=parsed['usage'],
         candidate_json_status=json_status, visible_pass=visible,
+        visible_failure_codes=p01_visible_codes(candidate) if row['task_id'] == 'P01'
+                              else [] if visible else ['visible_contract_failed'],
         usable=row['telemetry']['valid'], acceptance_runtime_status=row['telemetry']['runtime_status'])
 
 
@@ -149,12 +173,77 @@ def inspect(project, directory):
     return result
 
 
+def assess_public(project):
+    """Source-backed semantics from safe exports only; never reopen private receipts."""
+    root, unused_pointer, summary_sha, summary = snapshot(project)
+    meta = r.strict_json((root / 'diagnostic-latest.json').read_text(encoding='utf-8'))
+    if (set(meta) != {'schema_version', 'path', 'sha256', 'summary_sha256'}
+        or meta['schema_version'] != 1 or meta['summary_sha256'] != summary_sha
+        or not re.fullmatch(r'diagnostics/[0-9a-f]{64}\.json', meta['path'])):
+        raise r.Stop('diagnostic_sidecar_binding')
+    body = r.no_links(root / meta['path']).read_bytes()
+    if r.sha(body) != meta['sha256']:
+        raise r.Stop('diagnostic_sidecar_integrity')
+    diagnostic = r.strict_json(body.decode('utf-8'))
+    if diagnostic['summary_sha256'] != summary_sha or diagnostic['budget'] != summary['budget']:
+        raise r.Stop('diagnostic_sidecar_binding')
+    details = {a['attempt_id']: a for a in diagnostic['attempts']}
+    attempts = []
+    for attempt in summary['attempts']:
+        if attempt['stage'] == 'historical':
+            continue
+        detail = details[attempt['attempt_id']]
+        if any(detail[key] != attempt[key] for key in ('stdout_sha256', 'stderr_sha256', 'exit_code')):
+            raise r.Stop('diagnostic_sidecar_binding')
+        if detail['visible_pass'] != attempt['visible_pass'] or detail['incurred_usage'] != attempt['usage']:
+            raise r.Stop('diagnostic_sidecar_binding')
+        known = (summary['settings']['cli_version'] == '0.159.2'
+            and summary['settings']['cli_sha256'] == r.EXE_SHA
+            and detail['stderr_codes'] == ['model_catalog_refresh_request_timeout']
+            and detail['stdout_runtime_status'] == 'completed' and detail['stdout_errors'] == []
+            and detail['error_event_counts'] == {'error': 0, 'turn.failed': 0, 'item.error': 0}
+            and all(type(x) is int for x in detail['error_event_counts'].values())
+            and type(detail['exit_code']) is int and detail['exit_code'] == 0
+            and detail['timeout_or_interruption'] is False and detail['launch_error_present'] is False
+            and detail['usage_status'] == 'reported_complete_stage'
+            and attempt['safety_status'] != 'tool_violation')
+        expected_prompt_sha = r.sha(r.json_bytes(r.harness.packet(attempt['task_id'])))
+        visible_codes = detail.get('visible_failure_codes')
+        if visible_codes is not None and (type(visible_codes) is not list
+            or any(type(code) is not str or code not in VISIBLE_CODES for code in visible_codes)
+            or bool(visible_codes) == (attempt['visible_pass'] is True)):
+            raise r.Stop('diagnostic_visible_code_schema')
+        attempts.append(dict(attempt_id=attempt['attempt_id'],
+            semantic_runtime_status='completed_with_nonfatal_discovery_warning' if known else 'blocking_or_unclassified',
+            assurance='reduced_catalog_freshness_unverified' if known else 'not_reassessed',
+            recorded_runtime_status=attempt['runtime_status'], recorded_usable=attempt['usable'],
+            visible_pass=attempt['visible_pass'],
+            original_task_packet_hash_matches=attempt['stage'] == 'initial' and expected_prompt_sha == attempt['prompt_sha256'],
+            exact_visible_failure='checker_reason_codes_available' if visible_codes is not None
+                                  else 'unavailable_in_safe_export' if attempt['visible_pass'] is False else None,
+            visible_failure_codes=visible_codes,
+            missing_visible_evidence=['per_check_failure_codes_or_hash_bound_candidate']
+                                     if attempt['visible_pass'] is False and visible_codes is None else [],
+            actual_model_verified=False, effective_tool_mode_verified=False))
+    result = dict(schema_version=1, evidence_kind='SAFE_EXPORT_SOURCE_BACKED_ASSESSMENT',
+        summary_sha256=summary_sha, diagnostic_sha256=meta['sha256'], budget=summary['budget'],
+        attempts=attempts, new_inference_launches=0, recorded_acceptance_changed=False)
+    r.durable_bytes(root / 'assessment-latest.json', r.json_bytes(result), replace=True)
+    return result
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--data-dir', type=Path, required=True)
+    parser.add_argument('--data-dir', type=Path)
+    parser.add_argument('--public-only', action='store_true', help='Assess existing safe exports; no private receipt access')
     args = parser.parse_args()
+    if not args.public_only and args.data_dir is None:
+        parser.error('--data-dir is required unless --public-only is selected')
+    if args.public_only and args.data_dir is not None:
+        parser.error('--public-only must not receive a private data directory')
     try:
-        print(r.json_bytes(inspect(r.PROJECT, args.data_dir)).decode('utf-8'))
+        result = assess_public(r.PROJECT) if args.public_only else inspect(r.PROJECT, args.data_dir)
+        print(r.json_bytes(result).decode('utf-8'))
     except (r.Stop, OSError, ValueError, KeyError):
         print('STOP: diagnostic_integrity_or_schema_failure')
         raise SystemExit(2)

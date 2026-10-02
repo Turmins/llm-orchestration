@@ -20,7 +20,8 @@ PRIVATE = b'C:\\Users\\SYNTHETIC_PRIVATE\\auth.json secret@example.invalid'
 @contextmanager
 def campaign(err=TIMEOUT, tail=b''):
     with fixtures.state() as (ledger, project):
-        reservation = ledger.reserve('P01', 'W', r.sha(b'SYNTHETIC prompt'))
+        ledger.append('runtime',dict(version='0.159.2',executable_sha256=r.EXE_SHA))
+        reservation = ledger.reserve('P01', 'W', r.sha(r.json_bytes(r.harness.packet('P01'))))
         target = ledger.directory / reservation['stage_id']; target.mkdir()
         out = fixtures.encode(fixtures.fixture('{"SYNTHETIC_wrong":true}')) + tail
         process = dict(exit_code=0, elapsed_seconds=0.25, timeout_or_interruption=False, launch_error=None)
@@ -109,6 +110,64 @@ class DiagnosticTests(unittest.TestCase):
             row['process']['elapsed_seconds']='SYNTHETIC private'
             with self.assertRaisesRegex(r.Stop,'diagnostic_process_schema'):
                 d.attempt(row,(target/'stdout.jsonl').read_bytes(),(target/'stderr.log').read_bytes())
+
+    def test_public_assessment_does_not_read_private_receipts_or_change_acceptance(self):
+        with campaign() as (ledger, project, target):
+            d.inspect(project,ledger.directory)
+            # Saved safe sidecar is sufficient; private sources become unreadable JSON.
+            ledger.path.write_bytes(b'SYNTHETIC invalid private ledger')
+            (target/'stdout.jsonl').write_bytes(b'SYNTHETIC unavailable private receipt')
+            with patch.object(d,'inspect',side_effect=AssertionError('Private reader forbidden')):
+                result=d.assess_public(project)
+            row=result['attempts'][0]
+            self.assertEqual(row['semantic_runtime_status'],'completed_with_nonfatal_discovery_warning')
+            self.assertEqual(row['assurance'],'reduced_catalog_freshness_unverified')
+            self.assertFalse(row['recorded_usable']); self.assertFalse(row['visible_pass'])
+            self.assertTrue(row['original_task_packet_hash_matches'])
+            self.assertFalse(result['recorded_acceptance_changed'])
+            self.assertEqual(result['budget']['remaining'],5)
+            self.assertEqual(row['visible_failure_codes'],['unexpected_object_keys','intervals_not_list'])
+            # Older sidecars lack checker codes: report the precise gap, never infer an answer.
+            root=project/d.EXPORT; meta_path=root/'diagnostic-latest.json'
+            meta=r.strict_json(meta_path.read_text(encoding='utf-8'))
+            sidecar=r.strict_json((root/meta['path']).read_text(encoding='utf-8'))
+            del sidecar['attempts'][0]['visible_failure_codes']
+            body=r.json_bytes(sidecar); digest=r.sha(body)
+            r.durable_bytes(root/'diagnostics'/(digest+'.json'),body)
+            meta.update(path='diagnostics/'+digest+'.json',sha256=digest)
+            meta_path.write_bytes(r.json_bytes(meta))
+            gap=d.assess_public(project)['attempts'][0]
+            self.assertEqual(gap['exact_visible_failure'],'unavailable_in_safe_export')
+            self.assertIsNone(gap['visible_failure_codes'])
+
+    def test_public_assessment_unknown_stderr_and_runtime_errors_remain_blocking(self):
+        error=fixtures.encode([dict(type='error',message='SYNTHETIC private error')])
+        for err,tail in ((TIMEOUT+PRIVATE,b''),(TIMEOUT,error),(b'Code Mode is unavailable',b'')):
+            with self.subTest(err=err[:20]),campaign(err,tail) as (ledger,project,target):
+                d.inspect(project,ledger.directory)
+                row=d.assess_public(project)['attempts'][0]
+                self.assertEqual(row['semantic_runtime_status'],'blocking_or_unclassified')
+
+    def test_public_assessment_rejects_stale_sidecar_binding(self):
+        with campaign() as (ledger,project,target):
+            d.inspect(project,ledger.directory)
+            path=project/d.EXPORT/'diagnostic-latest.json'
+            value=r.strict_json(path.read_text(encoding='utf-8')); value['summary_sha256']='0'*64
+            path.write_bytes(r.json_bytes(value))
+            with self.assertRaisesRegex(r.Stop,'diagnostic_sidecar_binding'):
+                d.assess_public(project)
+
+    def test_p01_public_contract_touching_overlap_empty_and_json_are_distinct(self):
+        self.assertTrue(r.harness.visible('P01',{'intervals':[[0,4],[4,5],[8,12]]})['pass'])
+        self.assertEqual(d.p01_visible_codes({'intervals':[[0,4],[4,5],[8,12]]}),[])
+        # Visible structure deliberately does not certify original coverage/correctness.
+        self.assertTrue(r.harness.visible('P01',{'intervals':[]})['pass'])
+        self.assertFalse(r.harness.grade('P01',{'intervals':[]}))
+        for candidate in ({'wrong_key':[]},{'intervals':[[7,7]]},{'intervals':[[8,12],[0,4]]},
+                          {'intervals':[[0,4],[3,6]]},{'intervals':[[False,4]]}):
+            with self.subTest(candidate=candidate):
+                self.assertFalse(r.harness.visible('P01',candidate)['pass'])
+                self.assertTrue(d.p01_visible_codes(candidate))
 
 
 if __name__ == '__main__':
