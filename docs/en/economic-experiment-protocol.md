@@ -1,5 +1,7 @@
 # Economic Experiment: Four-Task PoC and Optional Future Protocol
 
+Historical protocol. The active controller uses the bounded small plan described in [verified controller fixes](controller-audit-fixes-2026-10-01.md); earlier comparison budgets and launch instructions below do not authorize current inference.
+
 Latest control: [preparation-only checkpoint](preparation-checkpoint.md). Execution is paused; no new runtime/model probes are authorized by this preparation.
 
 ## Current stage — subscription-only four-task PoC

@@ -1,0 +1,15 @@
+{
+  "errors": 0,
+  "failed_tests": [],
+  "failures": 0,
+  "kind": "OFFLINE_DIAGNOSTIC_REGRESSION_ONLY",
+  "new_inference_launches": 0,
+  "optimization": 1,
+  "skipped": 0,
+  "source_hashes": {
+    "inspect_export.py": "9b904d0d84dd06f73a8e88ea892d3ebe321c2516093fe4ae13ccffac492e6398",
+    "test_inspect_export.py": "03200bb30d2a09327be83d7816bdeebb720d8777ea2703fb026014a380ae401d"
+  },
+  "status": "passed",
+  "tests_run": 6
+}

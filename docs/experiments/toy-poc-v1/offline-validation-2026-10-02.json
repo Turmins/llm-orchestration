@@ -1,0 +1,80 @@
+{
+  "actual_model_success_demonstrated": false,
+  "ast_files": [
+    "cli_runner.py",
+    "runtime_host.py",
+    "harness.py",
+    "test_cli_runner.py",
+    "verify_offline.py"
+  ],
+  "bilingual_structure_and_literal_parity": true,
+  "demo_export": "poc-exports/cap8-serial-public-toy-v2/latest.json",
+  "elapsed_seconds": 3.7030000000086147,
+  "errors": 0,
+  "failed_tests": [],
+  "failures": 0,
+  "fixture_children": [
+    "python_fixture_child",
+    "python_fixture_child",
+    "powershell_fixture_child",
+    "python_fixture_child"
+  ],
+  "generated_at": "2026-10-02T12:55:14.528059+00:00",
+  "git_diff_check_exit": 0,
+  "historical_launches": 2,
+  "kind": "OFFLINE_REGRESSION_ONLY",
+  "optimization": 0,
+  "platform": "Windows",
+  "powershell_parser_errors": 0,
+  "python_version": "3.10.11",
+  "real_codex_launches": 0,
+  "remaining_real_launches": 6,
+  "schema_version": 1,
+  "skipped": 0,
+  "source_hashes": {
+    "cli_runner.py": {
+      "head_git_blob_sha256": "8375a05be2362382801642461ea65d5ecbd56355b59960457dc17e8a509ea126",
+      "lf_sha256": "613ad999415fa9ef9036c95e1f001c74a3d382709c8e994994dd2d0c888660fd",
+      "working_tree_sha256": "613ad999415fa9ef9036c95e1f001c74a3d382709c8e994994dd2d0c888660fd"
+    },
+    "harness.py": {
+      "head_git_blob_sha256": "f270b25621aa08749f6ec5ac18c5fa1a83eeeeefd9a98c83acf8ff57b7fa1cfc",
+      "lf_sha256": "f270b25621aa08749f6ec5ac18c5fa1a83eeeeefd9a98c83acf8ff57b7fa1cfc",
+      "working_tree_sha256": "f270b25621aa08749f6ec5ac18c5fa1a83eeeeefd9a98c83acf8ff57b7fa1cfc"
+    },
+    "run-poc.ps1": {
+      "head_git_blob_sha256": "ecaf430c4877fe0113f0ca76c91b520f5123c260fcc7991c86970fd74b0b480a",
+      "lf_sha256": "882959ab49f82cee6bdda521dbe5819ab97b78e20784fe13dbc6a60a548f6bb6",
+      "working_tree_sha256": "882959ab49f82cee6bdda521dbe5819ab97b78e20784fe13dbc6a60a548f6bb6"
+    },
+    "runtime_host.py": {
+      "head_git_blob_sha256": null,
+      "lf_sha256": "da2b2ab08e9cd8ea4492ba42167364f2002d413bb64957f6a88d3551f8e9a975",
+      "working_tree_sha256": "da2b2ab08e9cd8ea4492ba42167364f2002d413bb64957f6a88d3551f8e9a975"
+    },
+    "small-test-plan.json": {
+      "head_git_blob_sha256": "d15189dde275bce7fc869e76afd6f833638ac138ab4eb397868e7d11e4fab199",
+      "lf_sha256": "d15189dde275bce7fc869e76afd6f833638ac138ab4eb397868e7d11e4fab199",
+      "working_tree_sha256": "d15189dde275bce7fc869e76afd6f833638ac138ab4eb397868e7d11e4fab199"
+    },
+    "tasks.json": {
+      "head_git_blob_sha256": "9139a16cfc067e875d55f0af3bc6720d125615e9c12aa4d573c577b2de5875b4",
+      "lf_sha256": "9139a16cfc067e875d55f0af3bc6720d125615e9c12aa4d573c577b2de5875b4",
+      "working_tree_sha256": "9139a16cfc067e875d55f0af3bc6720d125615e9c12aa4d573c577b2de5875b4"
+    },
+    "test_cli_runner.py": {
+      "head_git_blob_sha256": "5883308dc45c435ec705a46835995d18f4c6d3a3b6d07d014c630d339846f914",
+      "lf_sha256": "43370c72be03cfc325b43ee206b65f8364d65f68303b28af8b0520be4074c426",
+      "working_tree_sha256": "43370c72be03cfc325b43ee206b65f8364d65f68303b28af8b0520be4074c426"
+    },
+    "verify_offline.py": {
+      "head_git_blob_sha256": "80576bbaa50d003626fdda3828373e9b9e6527e307e4e47bff702f1f0c1a13ce",
+      "lf_sha256": "cb0a42235c906f909e41df0a3c2c4d43f0b7eaf7705842546d53a3df28be199c",
+      "working_tree_sha256": "cb0a42235c906f909e41df0a3c2c4d43f0b7eaf7705842546d53a3df28be199c"
+    }
+  },
+  "source_head": "b2670c693b725053d125780fb257dcc4e63492dd",
+  "status": "passed",
+  "strict_json_files": 4,
+  "tests_run": 44
+}

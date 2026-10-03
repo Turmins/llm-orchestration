@@ -1,5 +1,7 @@
 # Windows four-task CLI PoC
 
+Historical instructions. The active serial controller, fixed small plan, required data directory and current blockers are described in [verified controller fixes](controller-audit-fixes-2026-10-01.md). Commands below retain the earlier interface and must not be used with the current wrapper.
+
 Version: 2026-10-01. This is an executable, bounded diagnostic for the user's ordinary Windows terminal, using the existing four frozen original tasks. No models were run while preparing this runner. It does not revive the larger benchmark.
 
 ## Launch

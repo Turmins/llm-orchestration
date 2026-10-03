@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "budget_cap": 8,
+  "reported_consumed_cli_launches": 2,
+  "max_remaining_new_cli_launches": 6,
+  "inference_status": "blocked_pending_verified_runtime_route",
+  "failed_stages": [
+    {
+      "task_id": "P01",
+      "role": "W",
+      "cli_launches": 1,
+      "source": "user-supplied evidence",
+      "cli_exit_code": null,
+      "actual_model": null,
+      "error_message": "Code Mode is unavailable because code-mode host is disabled. Code mode will fail closed; enable features.code_mode_host and install codex-code-mode-host.",
+      "candidate": {
+        "intervals": [
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            8,
+            12
+          ]
+        ]
+      },
+      "usage": {
+        "input_tokens": 7629,
+        "cached_input_tokens": 1792,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 90,
+        "reasoning_output_tokens": 66
+      }
+    },
+    {
+      "task_id": "P01",
+      "role": "E",
+      "cli_launches": 1,
+      "source": "user-supplied evidence",
+      "cli_exit_code": 0,
+      "actual_model": null,
+      "error_message": "Code Mode is unavailable because code-mode host is disabled. Code mode will fail closed; enable features.code_mode_host and install codex-code-mode-host.",
+      "candidate": {
+        "intervals": [
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            8,
+            12
+          ]
+        ]
+      },
+      "usage": {
+        "input_tokens": 8319,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 68,
+        "reasoning_output_tokens": 44
+      },
+      "process_evidence_source": "user-supplied P01-E-initial/process.json via Library; fields relayed in task instruction",
+      "preflight_evidence_source": "user-supplied preflight.json via Library; fields relayed in task instruction",
+      "process": {
+        "exit_code": 0,
+        "timeout_or_interruption": false,
+        "launch_error": null,
+        "elapsed_seconds": 7.1023351,
+        "started_at_reported_utc": "17:31:42.108806",
+        "ended_at_reported_utc": "17:31:49.211120"
+      },
+      "runtime_evidence": {
+        "version": "0.159.2",
+        "executable_sha256": "34549ded6e2aee87c911c62d025e52e26c488683d0f489cd68f756baef1a6df6",
+        "chatgpt_login_confirmed": true,
+        "code_mode_enabled_override_confirmed_false": true,
+        "code_mode_host_disabled_confirmed": true
+      }
+    }
+  ]
+}

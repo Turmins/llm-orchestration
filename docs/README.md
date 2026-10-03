@@ -1,9 +1,14 @@
 # Architecture reports / Архитектурные отчёты
 
-Version / Версия: **2026-10-01**
+Version / Версия: **2026-10-03**
 
 | Document / Документ | English | Русский |
 |---|---|---|
+| Cloud-only feasibility and safe-stop checkpoint / Работа без ПК и контрольная точка остановки | [Evidence and next validation](en/codex-cli-without-pc-2026-10-03.md) | [Возможности и следующая проверка](ru/codex-cli-without-pc-2026-10-03.md) |
+| Catalog fallback and P01 checks / Fallback каталога и проверки P01 | [Source-backed diagnosis and limits](en/discovery-and-visible-diagnostic-2026-10-02.md) | [Диагностика по исходникам и ограничения](ru/discovery-and-visible-diagnostic-2026-10-02.md) |
+| First corrected-controller attempt / Первая попытка исправленного контроллера | [Cause and safe postmortem export](en/attempt-postmortem-2026-10-02.md) | [Причина и безопасный postmortem export](ru/attempt-postmortem-2026-10-02.md) |
+| Measured host readiness / Измеренная готовность host | [Handshake and remaining blocker](en/runtime-host-readiness-2026-10-02.md) | [Handshake и оставшийся блокер](ru/runtime-host-readiness-2026-10-02.md) |
+| Active controller fixes and offline verification / Исправления активного controller и offline-проверки | [Verified implementation](en/controller-audit-fixes-2026-10-01.md) | [Проверенная реализация](ru/controller-audit-fixes-2026-10-01.md) |
 | Complete architecture review / Полный архитектурный анализ | [Full review](en/hierarchical-llm-architecture-review-updated.md) | [Полный анализ](ru/hierarchical-llm-architecture-review-updated.md) |
 | Independent conclusion and change table / Независимый вывод и таблица правок | [Independent review](en/independent-review.md) | [Независимый пересмотр](ru/independent-review.md) |
 | First experiment / Первый эксперимент | [Experiment plan](en/first-experiment.md) | [План эксперимента](ru/first-experiment.md) |

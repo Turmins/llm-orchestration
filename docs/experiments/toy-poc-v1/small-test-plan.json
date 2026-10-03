@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "plan_id": "cap8-serial-public-toy-v2",
+  "task_order": ["P01", "P02", "P03"],
+  "excluded_tasks": ["P04"],
+  "policy": "W-visible-checks-optional-one-E",
+  "budget_cap": 8,
+  "historical_launches": 2,
+  "max_new_launches": 6,
+  "max_attempts_per_task": 2,
+  "models": {"W": "gpt-6-luna", "E": "gpt-6.1-sol"},
+  "effort": "medium",
+  "task_selection": "Fixed original order before any new inference; no outcome-based replacement",
+  "takeover_trigger": "Usable runtime and usage, failed public JSON/schema/invariant checks",
+  "stop_on": ["runtime diagnostic", "tool violation", "incomplete or conflicting usage", "unresolved reservation", "budget or integrity failure"],
+  "no_baseline": true,
+  "no_repair_or_retry": true,
+  "hidden_secrecy_verified": false,
+  "actual_model_verified": false,
+  "live_launches_authorized_by_this_change": 0
+}
