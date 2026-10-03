@@ -1,9 +1,10 @@
 # Architecture reports / Архитектурные отчёты
 
-Version / Версия: **2026-10-01**
+Version / Версия: **2026-10-03**
 
 | Document / Документ | English | Русский |
 |---|---|---|
+| Cloud-only feasibility and safe-stop checkpoint / Работа без ПК и контрольная точка остановки | [Evidence and next validation](en/codex-cli-without-pc-2026-10-03.md) | [Возможности и следующая проверка](ru/codex-cli-without-pc-2026-10-03.md) |
 | Catalog fallback and P01 checks / Fallback каталога и проверки P01 | [Source-backed diagnosis and limits](en/discovery-and-visible-diagnostic-2026-10-02.md) | [Диагностика по исходникам и ограничения](ru/discovery-and-visible-diagnostic-2026-10-02.md) |
 | First corrected-controller attempt / Первая попытка исправленного контроллера | [Cause and safe postmortem export](en/attempt-postmortem-2026-10-02.md) | [Причина и безопасный postmortem export](ru/attempt-postmortem-2026-10-02.md) |
 | Measured host readiness / Измеренная готовность host | [Handshake and remaining blocker](en/runtime-host-readiness-2026-10-02.md) | [Handshake и оставшийся блокер](ru/runtime-host-readiness-2026-10-02.md) |
